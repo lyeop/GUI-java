@@ -22,15 +22,14 @@ public class Controller {
 
         try{
             st =conn.createStatement(); //connection 클래스로 mysql와 연동
-           psmt =conn.prepareStatement("INSERT INTO 선수관리 VALUES(?,?,?,?,?,?,?,?);");  //
-           psmt.setString(1,d.name); //Data 클래스에서 받은 name 값 대입
-           psmt.setString(2,d.team); //Data 클래스에서 받은 team 갑 대입
-           psmt.setString(3,d.position); //Data 클래스에서 받은 position 값 대입
-            psmt.setString(4,d.age); //Data 클래스에서 받은 age 값 대입
-            psmt.setString(5,null); //file 값이 입력이 없기 때문에 null으로 입력
-            psmt.setString(6,null); //debut 값이 입력이 없기때문에 null으로 입력
-            psmt.setString(7,null);//career 값이 입력이 없기 때문에 null으로 입력
-            psmt.setString(8,null);//num 값이 입력이 없기 때문에 null으로 입력
+           psmt =conn.prepareStatement("INSERT INTO 회원관리 VALUES(?,?,?,?,?);");  //
+           psmt.setString(1,d.id); //Data 클래스에서 받은 name 값 대입
+           psmt.setString(2,d.password); //Data 클래스에서 받은 team 갑 대입
+           psmt.setString(3,d.date); //Data 클래스에서 받은 position 값 대입
+            psmt.setString(4,d.name); //Data 클래스에서 받은 age 값 대입
+            psmt.setString(5, d.Tel); //file 값이 입력이 없기 때문에 null으로 입력
+
+
            psmt.executeUpdate(); //업데이트로 추가
         }catch (SQLException e){
             e.printStackTrace();
@@ -49,7 +48,6 @@ public class Controller {
                 String team = rs.getString("team");
                 String position = rs.getString("position");
                 String age = rs.getString("age");
-                arr.add(new Data(name,team,position,age));
 
             }
         }
@@ -112,8 +110,8 @@ public class Controller {
          //  ResultSet rs = psmt.executeQuery(); // 결과물 받는다. executeQuery
             //조건에 맞는 값을 변수 rs값을 가져와서 arr변수에 저장
             while(rs.next()){
-                arr.add(new Data(rs.getString("name"),rs.getString("team"),rs.getString("position"),
-                        rs.getString("age")));
+                arr.add(new Data(rs.getString("id"),rs.getString("password"),rs.getString("date"),
+                        rs.getString("name"),rs.getString("Tel")));
 
             }
 
@@ -123,28 +121,5 @@ public class Controller {
 
         return arr;
     }
-    ArrayList<Data> searchpositon(String position){ //포지션관리 이름검색
-        ArrayList<Data> arr= new ArrayList<>(); //arraylist data 를 변수 arr로 객체 생성
-        // System.out.println(arr); //arraylist 변수 arr을 출력
-        try{
-            st= conn.createStatement(); //mysql 에 연결
-            // mysqldp 명령어 고객관리안에 이름 String 변수 name 에 맞는 값을 입력
-            rs = st.executeQuery("select * from 선수관리 where position like '%"+ position + "%';");
-            //  psmt =conn.prepareStatement("select * from 고객관리 where 이름  like  '%(?)%' ;");
-            // psmt.setString(1,name);
-            //  ResultSet rs = psmt.executeQuery(); // 결과물 받는다. executeQuery
-            //조건에 맞는 값을 변수 rs값을 가져와서 arr변수에 저장
-            while(rs.next()){
-                arr.add(new Data(rs.getString("name"),rs.getString("team"),rs.getString("position"),
-                        rs.getString("age")));
 
-            }
-
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-
-        return arr;
-
-    }
 }

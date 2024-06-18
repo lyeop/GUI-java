@@ -1,16 +1,43 @@
 package DB_1;
 
 public class Data {
+    String id;
+    String password;
+    String date;
     String name;
-    String team;
-    String position;
-    String age;
 
-    public Data(String name, String team, String position, String age) {
+    String Tel;
+
+    public Data(String id, String password, String date, String name, String tel) {
+        this.id = id;
+        this.password = password;
+        this.date = date;
         this.name = name;
-        this.team = team;
-        this.position = position;
-        this.age = age;
+        Tel = tel;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getName() {
@@ -21,27 +48,11 @@ public class Data {
         this.name = name;
     }
 
-    public String getTeam() {
-        return team;
+    public String getTel() {
+        return Tel;
     }
 
-    public void setTeam(String team) {
-        this.team = team;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
-
-    public String getAge() {
-        return age;
-    }
-
-    public void setAge(String age) {
-        this.age = age;
+    public void setTel(String tel) {
+        Tel = tel;
     }
 }
