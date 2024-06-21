@@ -6,15 +6,19 @@ public class Data {
     String date;
     String name;
 
-    String Tel;
+    String tel;
 
     public Data(String id, String password, String date, String name, String tel) {
         this.id = id;
         this.password = password;
         this.date = date;
         this.name = name;
-        Tel = tel;
+        this.tel = tel;
     }
+    public Data(String id){
+        this.id=id;
+    }
+
 
     public String getId() {
         return id;
@@ -49,10 +53,10 @@ public class Data {
     }
 
     public String getTel() {
-        return Tel;
+        return tel;
     }
 
     public void setTel(String tel) {
-        Tel = tel;
+        this.tel = tel;
     }
 }
