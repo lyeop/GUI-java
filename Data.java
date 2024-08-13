@@ -15,10 +15,6 @@ public class Data {
         this.name = name;
         this.tel = tel;
     }
-    public Data(String id){
-        this.id=id;
-    }
-
 
     public String getId() {
         return id;
