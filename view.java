@@ -117,6 +117,7 @@ public class view {
                     Jt3.setText("");
                     jt5.setText("");
                     jt6.setText("");
+
                 }
             }
         });
@@ -136,45 +137,6 @@ public class view {
             }
         });
     }
-    public void Admin(){
-        jframe = new JFrame();
-        JP = new JPanel();
-        bjt1 = new JButton("회원관리");
-        bjt2 = new JButton("예약관리");
-        jframe.setTitle("관리자 페이지");
-        jframe.setBounds(50, 50, 400, 350);
-        jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jframe.setResizable(false);
-
-        JP.setLayout(null);
-        jframe.add(JP);
-
-        JL1 = new JLabel("회원 관리 GUI 이동 : ");
-        JL2 = new JLabel("예약 관리 GUI 이동 : ");
-        JL1.setBounds(30, 20, 100, 30);
-        JL2.setBounds(30, 80, 100, 30);
-        JP.add(JL1);
-        JP.add(JL2);
-        bjt1.setBounds(150, 20, 100, 30);
-        bjt2.setBounds(150, 80, 100, 30);
-        JP.add(bjt1);
-        JP.add(bjt2);
-
-        jframe.setVisible(true);
-        bjt1.addActionListener(new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new MemberManagementGUI();
-            }
-        });
-
-        bjt2.addActionListener(new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new SeatReservation("admin");
-            }
-        });
-    }
 
     public void longin() {
         jframe = new JFrame();
@@ -186,6 +148,7 @@ public class view {
         bjt6 = new JButton("종료");
         JL1 = new JLabel("아이디 입력:");
         JL2 = new JLabel("비밀번호 입력:");
+
         jframe.setTitle("로그인");
         jframe.setBounds(50, 50, 400, 350);
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -193,6 +156,7 @@ public class view {
         JP.setLayout(null);
         jframe.setResizable(false);
         jframe.add(JP);
+
         jt1.setBounds(110, 25, 70, 25);
         JP.add(jt1);
         JL1.setBounds(30, 20, 80, 30);
@@ -201,6 +165,7 @@ public class view {
         JP.add(jt2);
         JL2.setBounds(30, 50, 80, 30);
         JP.add(JL2);
+
         JP.add(bjt1);
         bjt1.setBounds(30, 250, 100, 30);
         JP.add(bjt2);
@@ -217,18 +182,10 @@ public class view {
                 String password = new String(jt2.getPassword());
                 ArrayList<Data> arr = con.searchId(id);
 
-                if (id.equals("admin") && password.equals("admin")) {
-                    JOptionPane.showMessageDialog(null, "관리자 GUI로 이동합니다.");
-                    jframe.setVisible(false);
-                    Admin(); // Admin 메소드 호출
-                }
-                // 일반 사용자 로그인 체크
-                else if (!arr.isEmpty() && id.equals(arr.get(0).getId()) && password.equals(arr.get(0).getPassword())) {
-                    JOptionPane.showMessageDialog(null, "자리예약 GUI로 이동합니다.");
+                if (!arr.isEmpty() && id.equals(arr.get(0).getId()) && password.equals(arr.get(0).getPassword())) {
                     jframe.setVisible(false);
                     new SeatReservation(id);
-
-                }else {
+                } else {
                     JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호가 일치하지 않습니다.");
                     jt1.setText("");
                     jt2.setText("");

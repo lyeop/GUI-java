@@ -26,7 +26,6 @@ public class SeatReservation {
         loadUserSeat();
     }
 
-
     public void createReservationUI() {
 
         jframe = new JFrame("자리예매");
@@ -97,45 +96,19 @@ public class SeatReservation {
     }
 
     public void exitButtonAction(ActionEvent e) {
-        if (selectedSeat == null) {
-            JOptionPane.showMessageDialog(jframe, "취소할 좌석을 선택해주세요.");
-            return;
-        }
-        if (userId.equals("admin")) {
-            // Admin 사용자라면 선택된 좌석의 예약을 취소할 수 있습니다.
-            boolean isReserved = controller.isSeatReserved(selectedSeat);
-            if (isReserved) {
-                controller.exitSeatByAdmin(selectedSeat); // 좌석 취소 (관리자 권한)
-                JOptionPane.showMessageDialog(jframe, "좌석 " + selectedSeat + " 예약이 취소되었습니다.");
-                JButton reservedButton = getButtonBySeatNumber(selectedSeat);
-                if (reservedButton != null) {
-                    reservedButton.setBackground(null);
-                    reservedButton.setEnabled(true);
-                }
-                selectedSeatLabel.setText("선택한 좌석: ");
-                selectedSeat = null;  // 선택 초기화
-
-            } else {
-                JOptionPane.showMessageDialog(jframe, "해당 좌석은 예약되지 않았습니다.");
+        String userSeat = controller.getUserSeat(userId);
+        if (userSeat != null) {
+            controller.exitSeat(userId);
+            JOptionPane.showMessageDialog(jframe, "좌석 " + userSeat + " 예약이 취소되었습니다.");
+            JButton reservedButton = getButtonBySeatNumber(userSeat);
+            if (reservedButton != null) {
+                reservedButton.setBackground(null);
+                reservedButton.setEnabled(true);
             }
+            jframe.setVisible(false);
+            new view();
         } else {
-            // 일반 사용자라면 자신의 예약만 취소 가능
-            String userSeat = controller.getUserSeat(userId);
-            if (userSeat != null && userSeat.equals(selectedSeat)) {
-                controller.exitSeat(userId); // 좌석 취소 (사용자 권한)
-                JOptionPane.showMessageDialog(jframe, "좌석 " + selectedSeat + " 예약이 취소되었습니다.");
-                JButton reservedButton = getButtonBySeatNumber(selectedSeat);
-                if (reservedButton != null) {
-                    reservedButton.setBackground(null);
-                    reservedButton.setEnabled(true);
-                }
-                selectedSeatLabel.setText("선택한 좌석: ");
-                selectedSeat = null;  // 선택 초기화
-                jframe.setVisible(false);
-                new view();
-            } else {
-                JOptionPane.showMessageDialog(jframe, "해당 좌석은 예약되지 않았습니다.");
-            }
+            JOptionPane.showMessageDialog(jframe, "예약된 좌석이 없습니다.");
         }
     }
 
@@ -150,30 +123,21 @@ public class SeatReservation {
             JButton reservedButton = getButtonBySeatNumber(seat);
             if (reservedButton != null) {
                 reservedButton.setBackground(Color.RED);
-                if (!userId.equals("admin")) {
-                    reservedButton.setEnabled(false); // 일반 사용자는 선택 불가
-                } else {
-                    reservedButton.setEnabled(true); // 관리자는 선택 가능
-                }
+                reservedButton.setEnabled(false);
             }
         }
     }
 
     private void loadUserSeat() {
-
         String userSeat = controller.getUserSeat(userId);
         if (userSeat != null) {
             selectedSeatLabel.setText("예약한 좌석: " + userSeat);
             JButton reservedButton = getButtonBySeatNumber(userSeat);
             if (reservedButton != null) {
                 reservedButton.setBackground(Color.BLUE);
-                if (!userId.equals("admin")) {
-                    reservedButton.setEnabled(false); // 일반 사용자는 선택 불가
-                } else {
-                    reservedButton.setEnabled(true); // 관리자는 선택 가능
-                }
+                reservedButton.setEnabled(false);
             }
-    }
+        }
     }
 
     private JButton getButtonBySeatNumber(String seatNumber) {
