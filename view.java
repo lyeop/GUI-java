@@ -34,6 +34,11 @@ public class view {
     public view() {
         longin();
     }
+    public view(boolean skipLogin) {
+        if (skipLogin) {
+            Admin();  // 매개변수가 true일 때만 admin() 실행
+        }
+    }
 
     public void gui_newMember() {
         jframe = new JFrame();
@@ -137,10 +142,12 @@ public class view {
         });
     }
     public void Admin(){
+
         jframe = new JFrame();
         JP = new JPanel();
         bjt1 = new JButton("회원관리");
         bjt2 = new JButton("예약관리");
+        bjt6 = new JButton("로그인");
         jframe.setTitle("관리자 페이지");
         jframe.setBounds(50, 50, 400, 350);
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -151,19 +158,25 @@ public class view {
 
         JL1 = new JLabel("회원 관리 GUI 이동 : ");
         JL2 = new JLabel("예약 관리 GUI 이동 : ");
-        JL1.setBounds(30, 20, 100, 30);
-        JL2.setBounds(30, 80, 100, 30);
+        JL3 = new JLabel("로그인 GUI 이동 : ");
+        JL1.setBounds(30, 20, 130, 30);
+        JL2.setBounds(30, 80, 130, 30);
+        JL3.setBounds(30,140,130,30);
         JP.add(JL1);
         JP.add(JL2);
-        bjt1.setBounds(150, 20, 100, 30);
-        bjt2.setBounds(150, 80, 100, 30);
+        JP.add(JL3);
+        bjt1.setBounds(170, 20, 100, 30);
+        bjt2.setBounds(170, 80, 100, 30);
+        bjt6.setBounds(170,140,100,30);
         JP.add(bjt1);
         JP.add(bjt2);
+        JP.add(bjt6);
 
         jframe.setVisible(true);
         bjt1.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                jframe.setVisible(false);
                 new MemberManagementGUI();
             }
         });
@@ -171,7 +184,15 @@ public class view {
         bjt2.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                jframe.setVisible(false);
                 new SeatReservation("admin");
+            }
+        });
+        bjt6.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jframe.setVisible(false);
+                longin();
             }
         });
     }

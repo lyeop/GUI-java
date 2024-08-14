@@ -24,17 +24,16 @@ public class MemberManagementGUI {
         frame.setSize(800, 400);
         frame.setLayout(new BorderLayout());
 
-        // Table model setup
+
         tableModel = new DefaultTableModel(new String[]{"ID", "Password", "Date", "Name", "Tel"}, 0);
         table = new JTable(tableModel);
         table.setCellSelectionEnabled(true); // Enable cell selection for editing
         JScrollPane scrollPane = new JScrollPane(table);
 
-        // Load member data
         loadMemberData();
 
-        // Buttons to delete and update member information
         JButton deleteButton = new JButton("삭제");
+        JButton adminPage =new JButton("관리자 GUI");
         deleteButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -49,10 +48,18 @@ public class MemberManagementGUI {
                 updateMemberInfo();
             }
         });
+        adminPage.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.setVisible(false);
+                new view(true);
+            }
+        });
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(deleteButton);
         buttonPanel.add(updateButton);
+        buttonPanel.add(adminPage);
 
         frame.add(scrollPane, BorderLayout.CENTER);
         frame.add(buttonPanel, BorderLayout.SOUTH);

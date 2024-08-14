@@ -13,6 +13,7 @@ public class SeatReservation {
     JButton reserveButton;
     JButton exitButton;
     JButton closeButton;
+    JButton adminPage;
     JLabel selectedSeatLabel;
     String selectedSeat;
     String userId;
@@ -36,6 +37,11 @@ public class SeatReservation {
         reserveButton = new JButton("예약");
         exitButton = new JButton("퇴실");
         closeButton = new JButton("종료");
+        if ("admin".equals(userId)) {
+            adminPage = new JButton("관리자 GUI");
+            adminPage.addActionListener(this::adminPage);
+        }
+
 
         // Initialize seat buttons
         for (int row = 0; row < 5; row++) {
@@ -47,6 +53,7 @@ public class SeatReservation {
             }
         }
 
+
         reserveButton.addActionListener(this::reserveButtonAction);
         exitButton.addActionListener(this::exitButtonAction);
         closeButton.addActionListener(this::closeButtonAction);
@@ -57,12 +64,19 @@ public class SeatReservation {
         JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         southPanel.add(reserveButton);
         southPanel.add(exitButton);
+
+        // 관리자인 경우에만 adminPage 버튼 추가
+        if ("admin".equals(userId)) {
+            southPanel.add(adminPage);
+        }
+
         southPanel.add(closeButton);
 
         jframe.setLayout(new BorderLayout());
         jframe.add(panel, BorderLayout.CENTER);
         jframe.add(northPanel, BorderLayout.NORTH);
         jframe.add(southPanel, BorderLayout.SOUTH);
+
 
         jframe.setSize(400, 400);
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -73,6 +87,10 @@ public class SeatReservation {
         JButton clickedButton = (JButton) e.getSource();
         selectedSeat = clickedButton.getText();
         selectedSeatLabel.setText("선택한 좌석: " + selectedSeat);
+    }
+    public void adminPage (ActionEvent e){
+        jframe.setVisible(false);
+        new view(true);
     }
 
     public void reserveButtonAction(ActionEvent e) {
@@ -102,10 +120,10 @@ public class SeatReservation {
             return;
         }
         if (userId.equals("admin")) {
-            // Admin 사용자라면 선택된 좌석의 예약을 취소할 수 있습니다.
+
             boolean isReserved = controller.isSeatReserved(selectedSeat);
             if (isReserved) {
-                controller.exitSeatByAdmin(selectedSeat); // 좌석 취소 (관리자 권한)
+                controller.exitSeatByAdmin(selectedSeat);
                 JOptionPane.showMessageDialog(jframe, "좌석 " + selectedSeat + " 예약이 취소되었습니다.");
                 JButton reservedButton = getButtonBySeatNumber(selectedSeat);
                 if (reservedButton != null) {
